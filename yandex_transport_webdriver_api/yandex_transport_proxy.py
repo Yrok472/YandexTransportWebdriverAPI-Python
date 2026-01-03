@@ -117,7 +117,10 @@ class YandexTransportProxy:
                         f.write(buffer)
                         f.write('\n')
                     try:
-                        json_data = json.loads(buffer, encoding='utf-8')
+                        # Decode buffer to string if it's bytes, then parse JSON
+                        if isinstance(buffer, bytes):
+                            buffer = buffer.decode('utf-8')
+                        json_data = json.loads(buffer)
                     except Exception as e:
                         # Raise an exception, this might be problematic.
                         if self.log_buffer:
